@@ -8,6 +8,9 @@ class SessionsController < ApplicationController
     if login(email, password)
       flash[:success] = 'ログインに成功しました。'
       redirect_to @user
+      #remember_meにチェックが入って入れば記憶トークン等を登録、チェックが無ければ記憶トークン等を削除
+      params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
+
     else
       flash.now[:danger] = 'ログインに失敗しました。'
       render :new
@@ -15,7 +18,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    log_out if logged_in?
     flash[:success] = 'ログアウトしました。'
     redirect_to root_url
   end
@@ -32,5 +35,12 @@ class SessionsController < ApplicationController
       # ログイン失敗
       return false
     end
+  end
+  
+  # 現在のユーザーをログアウトする
+  def log_out
+    forget(current_user)
+    session.delete(:user_id)
+    @current_user = nil
   end
 end

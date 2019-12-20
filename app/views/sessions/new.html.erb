@@ -18,6 +18,11 @@
       </div>
 
       <%= f.submit 'ログイン', class: 'btn btn-primary btn-block' %>
+      
+      <%= f.label :remember_me do %>
+      <%= f.check_box :remember_me %>
+      <span>自動ログインを有効にする</span>
+    　<% end %>
     <% end %>
 
     <p>新規登録は <%= link_to 'こちら', signup_path %></p>
