@@ -1,8 +1,55 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザ: <%= current_user.name %></p>
-  <div class="text-center">
- <h1>ここに画像を投稿します</h1>
- </div>
+  
+ <h2>VS待ち</h2>
+ <% if @posts.present? %>
+   <% @posts.each do |post| %>
+     <% if post.vattle.nil? %>
+       <ul>
+         <li>
+           <p>
+             <%= post.title %>
+           </p>
+           <p>
+             <%= image_tag post.image.url if post.image? %> <h3>VS  <%= link_to '画像待ち',new_vattle_path(id:post.id) %></h3>
+           </p>
+           <p>
+            <% if current_user == post.user %>
+            <%= link_to "Delete", post, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+           </p>
+           <% end %>
+   <% end %>
+     <% end %>       
+<% else %>
+  <%= link_to 'あなたが今日最初のユーザーです。早速画像を投稿してバトルを募集してみましょう',new_post_path %>
+<% end %>  
+ 
+    </li>     
+  </ul>       
+         
+ <h2>VS中</h2>
+  <% if @vattles.present? %>
+    <% @vattles.each do |vattle| %>
+   <ul>
+      <li>
+         <p>
+          <%= vattle.post.title %>   <%= vattle.title %>
+         </p>
+         <p>
+          <%= image_tag vattle.post.image.url if vattle.post.image? %> <h3>VS</h3>  <%= image_tag vattle.imaged.url if vattle.imaged? %>
+         </p>
+     </li>    
+  </ul>       
+   <% end %>       
+ <% else %>
+  <p>画像待ちの画像からバトルに参加しましょう</p>
+ <% end %> 
+ 
+       
+
+ 
+      
+  
+ 
 <% else %>
  <div class="center jumbotron">
  <div class="text-center">

@@ -1,0 +1,2 @@
+module VattlesHelper
+end

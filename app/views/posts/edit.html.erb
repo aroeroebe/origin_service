@@ -1,0 +1,20 @@
+<h1><%= image_tag @post.image.url if @post.image? %>VS画像を選ぶ</h1>
+
+
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-sm-4">
+      <%= form_with(model: @vattle, local: true) do |f| %>
+        <div class="form-group">
+          <%= f.label :title %>
+          <%= f.text_field :title, class: 'form-control', rows: 5 %>
+        </div>
+        <div class="form-group">
+         <%= f.label :imaged %>
+         <br>
+         <%= f.file_field :imaged %>
+        </div>
+        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
+      <% end %>
+
+<% end %>

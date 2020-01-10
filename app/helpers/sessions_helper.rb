@@ -15,6 +15,10 @@ module SessionsHelper
     !!current_user
   end
   
+  def log_in(user)
+    session[:user_id] = user.id
+  end
+  
 # ユーザーのセッションを永続的にする
   def remember(user)
   user.remember #Userモデルで定義したrememberメソッド。記憶トークンを作成、ハッシュ化してDBに保存

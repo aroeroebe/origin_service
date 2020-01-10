@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_040430) do
+ActiveRecord::Schema.define(version: 2020_01_09_022529) do
+
+  create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "vattle_id"
+    t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+    t.index ["vattle_id"], name: "index_likes_on_vattle_id"
+  end
+
+  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "image"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -21,4 +41,21 @@ ActiveRecord::Schema.define(version: 2019_12_20_040430) do
     t.string "remember_digest"
   end
 
+  create_table "vattles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.string "imaged"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_vattles_on_post_id"
+    t.index ["user_id"], name: "index_vattles_on_user_id"
+  end
+
+  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "users"
+  add_foreign_key "likes", "vattles"
+  add_foreign_key "posts", "users"
+  add_foreign_key "vattles", "posts"
+  add_foreign_key "vattles", "users"
 end

@@ -2,10 +2,21 @@ class User < ApplicationRecord
   attr_accessor :remember_token
   
   has_secure_password
+  
+ has_many :posts
+ has_many :vattles
+ has_many :likes
+ has_many :likings, through: :likes, source: :post
+  
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
+ 
+ 
+ 
+ # 自動ログイン----------------------------------------------------------------
+ 
                     
   # ランダムなトークンを返す
   def self.new_token #User.new_tokenと同じ意味
@@ -35,4 +46,28 @@ class User < ApplicationRecord
   def forget
   update_attribute(:remember_digest, nil)
   end
+  
+ 
+ #お気に入り機能-------------------------------------------------------------------------- 
+  
+  #お気に入り追加
+  def like(post)
+    likes.find_or_create_by(post_id: post.id)
+  end
+
+  #お気に入り削除
+  def unlike(post)
+    like = likes.find_by(post_id: post.id)
+    like.destroy if like
+  end
+
+  #お気にり登録判定
+  def liking?(post)
+    self.likings.include?(post)
+  end
+  
+ 
+#-------------------------------------------------------------------------------------------  
+  
+  
 end
