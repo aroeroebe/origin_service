@@ -28,17 +28,42 @@
          
  <h2>VS中</h2>
   <% if @vattles.present? %>
+    
+      <% @vattles.each do |vattle| %>
+        <% if @time < vattle.created_at+24.hours %>   
+          <%= vattle.post.title %>                                                  <%= vattle.title %>
+          <p><%= image_tag vattle.post.image.url if vattle.post.image? %>VS<%= image_tag vattle.imaged.url if vattle.imaged? %></p>
+          <p><div class="like_button"><%= render 'likes/like_button', post: vattle.post %></div>
+             <div class="seclike_button"><%= render 'likes/seclike_button', vattle: vattle %></div>
+          </p>
+          <p>投票数：<%= post_count(vattle.post) %> 投票数：<%= vattle_count(vattle) %></p>  
+        <% end %>
+      <% end %> 
+ <% else %>
+  <p>画像待ちの画像からバトルに参加しましょう</p>
+ <% end %> 
+ 
+ 
+ <h2>VS結果</h2>
+ 
+ <% if @vattles.present? %>
     <% @vattles.each do |vattle| %>
-   <ul>
-      <li>
-         <p>
-          <%= vattle.post.title %>   <%= vattle.title %>
-         </p>
-         <p>
-          <%= image_tag vattle.post.image.url if vattle.post.image? %> <h3>VS</h3>  <%= image_tag vattle.imaged.url if vattle.imaged? %>
-         </p>
-     </li>    
-  </ul>       
+    
+      <% if post_count(vattle.post) > vattle_count(vattle) && @time > vattle.created_at+24.hours %>
+         
+          <%= vattle.post.title %>                                                  <%= vattle.title %>
+          win<p><%= image_tag vattle.post.image.url if vattle.post.image? %>lose<%= image_tag vattle.imaged.url if vattle.imaged? %></p>
+          <p>投票数：<%= post_count(vattle.post) %> 投票数：<%= vattle_count(vattle) %></p>
+      <% elsif post_count(vattle.post) < vattle_count(vattle) && @time > vattle.created_at+24.hours %>
+          <%= vattle.post.title %>                                                  <%= vattle.title %>
+          win<p><%= image_tag vattle.imaged.url if vattle.imaged? %>lose<%= image_tag vattle.post.image.url if vattle.post.image? %></p>
+          <p>投票数：<%= vattle_count(vattle) %> 投票数：<%= post_count(vattle.post) %></p>
+      <% elsif post_count(vattle.post) == vattle_count(vattle) && @time > vattle.created_at+24.hours  %>    
+          <%= vattle.post.title %>                                                  <%= vattle.title %>
+          引き分け<p><%= image_tag vattle.post.image.url if vattle.post.image? %>引き分け<%= image_tag vattle.imaged.url if vattle.imaged? %></p>
+          <p>投票数：<%= post_count(vattle.post) %> 投票数：<%= vattle_count(vattle) %></p>
+      <% end %>
+      
    <% end %>       
  <% else %>
   <p>画像待ちの画像からバトルに参加しましょう</p>

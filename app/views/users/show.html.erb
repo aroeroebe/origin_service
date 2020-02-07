@@ -6,26 +6,37 @@
       </div>
       <div class="card-body">
        #〇〇連勝中
-        <ul>
-          <% @posts.each do |post| %>
-         <p>
-          <strong>title:</strong>
-          <%= post.title %>
-         </p>
-         <p>
-          <strong>Image:</strong>
-          <%= image_tag post.image.url if post.image? %> 
+       <% if @posts.present? %> 
+         <% @posts.each do |post| %>
+            
+            <% if post.vattle.nil? %>
+          <%= image_tag post.image.url if post.image? %> ＶＳ画像待ち
           <% if current_user == post.user %>
             <%= link_to "Delete", post, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+            <% end %>
           <% end %>
-          <%= render 'likes/like_button', post: post %>
-          投票数：<%= count(post) %>
           
+        <% if post.vattle %>  
+          <% if @time < post.vattle.created_at+24.hours %>
+            <p><%= image_tag post.image.url if post.image? %>VS対戦者<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
+            あと<%= Time.at(post.vattle.created_at+24.hours-@time).utc.strftime('%X') %>
+          <% end %>
+        <% end %>
         
-
-         </p>
+        <% if post.vattle %>
+          <% if post_count(post) > vattle_count(post.vattle) && @time > post.vattle.created_at+24.hours %>
+                <p>勝<%= image_tag post.image.url if post.image? %>負<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
+          <% elsif post_count(post) < vattle_count(post.vattle) && @time > vattle.created_at+24.hours %>
+                <p>負<%= image_tag post.image.url if vattle.post.image? %>勝<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
+          <% elsif post_count(post) == vattle_count(post.vattle) && @time > post.vattle.created_at+24.hours %> 
+          <% end %>
+        <% end %>
+        
          <% end %>
-        </ul>
+      <% else %>
+       対戦画像を投稿しましょう 
+      <% end %>
+       
       </div>
     </div>
   </aside>

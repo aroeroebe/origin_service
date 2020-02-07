@@ -7,6 +7,9 @@ class User < ApplicationRecord
  has_many :vattles
  has_many :likes
  has_many :likings, through: :likes, source: :post
+ has_many :seclikes
+ has_many :seclikings, through: :seclikes, source: :vattle
+ 
   
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
@@ -64,6 +67,22 @@ class User < ApplicationRecord
   #お気にり登録判定
   def liking?(post)
     self.likings.include?(post)
+  end
+  
+  #お気に入り追加(vattle)
+  def seclike(vattle)
+    seclikes.find_or_create_by(vattle_id: vattle.id)
+  end
+
+  #お気に入り削除(vattle)
+  def secunlike(vattle)
+    seclike = seclikes.find_by(vattle_id: vattle.id)
+    seclike.destroy if seclike
+  end
+
+  #お気にり登録判定(vattle)
+  def secliking?(vattle)
+    self.seclikings.include?(vattle)
   end
   
  

@@ -14,9 +14,7 @@ class Post < ApplicationRecord
  # self.inheritance_column = :_type_disabled  #typeカラムがそのままだと使えないため
   
   
-  def counts(liked_post)
-    @count_liked = liked_post.liked.count
-  end
+  
   
   
  

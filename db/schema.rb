@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_022529) do
+ActiveRecord::Schema.define(version: 2020_02_05_061248) do
 
   create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -30,6 +30,24 @@ ActiveRecord::Schema.define(version: 2020_01_09_022529) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "secfavorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "vattle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_secfavorites_on_user_id"
+    t.index ["vattle_id"], name: "index_secfavorites_on_vattle_id"
+  end
+
+  create_table "seclikes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "vattle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_seclikes_on_user_id"
+    t.index ["vattle_id"], name: "index_seclikes_on_vattle_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -56,6 +74,10 @@ ActiveRecord::Schema.define(version: 2020_01_09_022529) do
   add_foreign_key "likes", "users"
   add_foreign_key "likes", "vattles"
   add_foreign_key "posts", "users"
+  add_foreign_key "secfavorites", "users"
+  add_foreign_key "secfavorites", "vattles"
+  add_foreign_key "seclikes", "users"
+  add_foreign_key "seclikes", "vattles"
   add_foreign_key "vattles", "posts"
   add_foreign_key "vattles", "users"
 end
