@@ -48,7 +48,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: VSimage_production
-  username: VSimage
-  password: <%= ENV['VSIMAGE_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: vsimage
+  username: vsimage
+  password: <%= ENV['VSimage_DATABASE_PASSWORD'] %>
