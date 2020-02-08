@@ -26,9 +26,10 @@
         <% if post.vattle %>
           <% if post_count(post) > vattle_count(post.vattle) && @time > post.vattle.created_at+24.hours %>
                 <p>勝<%= image_tag post.image.url if post.image? %>負<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
-          <% elsif post_count(post) < vattle_count(post.vattle) && @time > vattle.created_at+24.hours %>
-                <p>負<%= image_tag post.image.url if vattle.post.image? %>勝<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
-          <% elsif post_count(post) == vattle_count(post.vattle) && @time > post.vattle.created_at+24.hours %> 
+          <% elsif post_count(post) < vattle_count(post.vattle) && @time > post.vattle.created_at+24.hours %>
+                <p>負<%= image_tag post.image.url if post.image? %>勝<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
+          <% elsif post_count(post) == vattle_count(post.vattle) && @time > post.vattle.created_at+24.hours %>
+                <p>引き分け<%= image_tag post.image.url if post.image? %>引き分け<%= image_tag post.vattle.imaged.url if post.vattle.imaged? %></p>
           <% end %>
         <% end %>
         

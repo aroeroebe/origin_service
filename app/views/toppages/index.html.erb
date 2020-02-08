@@ -50,7 +50,6 @@
     <% @vattles.each do |vattle| %>
     
       <% if post_count(vattle.post) > vattle_count(vattle) && @time > vattle.created_at+24.hours %>
-         
           <%= vattle.post.title %>                                                  <%= vattle.title %>
           win<p><%= image_tag vattle.post.image.url if vattle.post.image? %>lose<%= image_tag vattle.imaged.url if vattle.imaged? %></p>
           <p>投票数：<%= post_count(vattle.post) %> 投票数：<%= vattle_count(vattle) %></p>
