@@ -64,10 +64,18 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'kaminari'
 gem 'carrierwave'
 gem 'mini_magick','4.9.5'
+gem 'fog-aws'
+gem 'dotenv-rails'
+
+group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  
+end  
 
 
 group :production do
   gem 'pg', '>= 0.18', '< 2.0'
   gem 'fog', '1.42'
-  end
+end
 
